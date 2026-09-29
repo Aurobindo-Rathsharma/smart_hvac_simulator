@@ -1,56 +1,48 @@
 # Smart Home Occupancy & HVAC Control Simulator
 
-## What is this project?
-This is my individual project for the Wipro embedded systems recruitment. I built a lightweight, high-performance embedded Linux controller simulator in **Modern C++ (C++20)**. Instead of using bloated web backends or cloud services, this system runs locally as a Linux daemon—reading sensor data, tracking room occupancy, and managing climate states with minimal resource usage and near-zero latency.
-
-- **Assigned Topic:** Smart Home Occupancy & HVAC Control Simulator[cite: 1]
-- **Environment:** Ubuntu Linux (System Programming & C++)
+A robust, production-grade Linux daemon designed to monitor indoor environmental telemetry and dynamically optimize HVAC states using a deterministic Finite State Machine (FSM). Built with Modern C++20 principles and a zero-dependency native C++ compilation pipeline.
 
 ---
 
-## How I Developed It (6-Stage Breakdown)
+## Project Development Stages
 
-### Stage 1 – Project Introduction
-* **The Goal:** Build an autonomous, localized embedded controller simulation that handles sensor inputs and drives an HVAC state machine efficiently.
-* **Why it matters:** Smart home devices often rely too much on heavy cloud servers. This project focuses on edge computing—processing everything right on the device for speed and reliability.
-* **Scope:** Focused purely on Linux system programming, character device interfaces, multi-threading, and clean C++ code with zero web dependencies.
+The repository has been systematically developed across six distinct engineering stages:
 
-### Stage 2 – Project Requirements & Development Plan
-* **What I needed it to do:** 
-  * Read asynchronous occupancy and temperature metrics from a Linux file node (`/dev/smart_hvac_sensors`).
-  * Run a deterministic state machine (`IDLE`, `ECO_HEATING`, `ECO_COOLING`, `ACTIVE_COMFORT`, `AWAY_MODE`).
-  * Keep memory usage under 15 MB and loop latency under 5 ms.
-* **Approach:** Kept the codebase strictly Modern C++ ($\ge 80\%$) to align with low-level embedded constraints.
+### Stage 1: Architecture Design
+* **System Pattern:** Designed around a lightweight Linux daemon structure for continuous, headless background execution.
+* **Resource Safety:** Utilizes RAII (Resource Acquisition Is Initialization) wrappers for file descriptors and system resources to prevent leaks and ensure deterministic teardowns.
+* **Signal Handling:** Integrates custom POSIX signal handlers (`SIGTERM`, `SIGINT`) for clean, safe state persistence upon shutdown.
+* **Asynchronous Logging:** Implements a lightweight, non-blocking logging pipeline to record system health and state changes without halting execution.
 
-### Stage 3 – System Design & Architecture
-* **How it's structured:** 
-  * **Driver Interface Layer:** Uses RAII to safely wrap Linux file descriptors.
-  * **Core Business Logic:** Handles multithreaded sensor polling and state evaluation.
-* **Tools used:** C++20, CMake build system, Git for version control, and Linux system calls.
+### Stage 2: Product Requirements Document (PRD) & Specs
+* **Performance Goals:** Targets sub-millisecond state evaluation latency and a minimal memory footprint suitable for resource-constrained embedded edge deployment.
+* **Core Constraints:** Strict adherence to Modern C++ standards with minimal legacy C interface layers (10-15%) reserved strictly for low-level system calls.
+* **Memory Management:** Enforces strict bounds on dynamic memory allocation to eliminate heap fragmentation risks during long-running daemon lifecycles.
+* **Concurrency Contracts:** Defines clear thread-safety boundaries to safely manage concurrent sensor polling threads without race conditions.
 
-### Stage 4 – Initial Implementation & Prototype
-* **What I built first:** I wrote the `SensorReader` class to handle file reads (with a fallback simulation generator so it can run smoothly out-of-the-box). 
-* **The FSM:** Tied it to an `HVACController` class that evaluates temperature and motion changes in real-time, printing out clean telemetry logs.
+### Stage 3: Deterministic FSM Design
+* **State Space:** Engineered a robust Finite State Machine managing distinct operational modes:
+  * `IDLE`: Baseline low-power standby when the space is unoccupied.
+  * `ECO_HEATING` / `ECO_COOLING`: Energy-saving thermal regulation based on ambient variance.
+  * `ACTIVE_COMFORT`: High-performance mode triggered by high occupant density.
+  * `AWAY_MODE`: Extended conservation state for prolonged vacancy.
+* **Hysteresis Buffering:** Implements thermal threshold buffers to prevent rapid oscillation ("flapping") between heating and cooling states during fluctuating boundary conditions.
+* **Transition Matrix:** Enforces a strict, deterministic transition validation matrix that guarantees zero invalid state hops.
 
-### Stage 5 – Testing, Integration & Improvement
-* **Ensuring stability:** Tested the data flow from mock sensor inputs all the way to the state machine output. 
-* **Code quality:** Used smart pointers and RAII to ensure there are no memory leaks, keeping it robust for embedded targets.
+### Stage 4: Modular C++ Implementation
+* **Component Breakdown:** Developed modular subsystems for real-time sensor data ingestion (`SensorReader`), thermal logic evaluation, and daemon control loops.
+* **Language Compliance:** Implemented using strongly typed `enum class` definitions, smart pointers, and clean header-implementation separation.
+* **Zero-Copy Optimization:** Utilizes efficient data-passing structures between telemetry parsers and the FSM evaluation engine to minimize CPU cycles.
+* **Exception Safety:** Establishes strong exception-neutral error propagation boundaries to maintain high availability under fault conditions.
 
-### Stage 6 – Final Implementation & Presentation
-* **Final Deliverables:** Clean source code, PRD documentation, CMake configuration, and a complete Git commit history showing step-by-step progress.
-* **Key takeaways:** Successfully delivered a zero-backend, high-performance Linux simulator meeting all strict recruiter constraints.
+### Stage 5: Unit Testing Suite
+* **Verification Framework:** Developed an integrated, standalone testing harness (`test_main.cpp`) to validate edge cases, sensor parsing, and FSM transition rules.
+* **Reliability:** Automated test execution to guarantee regression-free code updates prior to deployment.
+* **Mock Injection:** Incorporates mock sensor generators to simulate extreme thermal spikes, sensor dropouts, and intermittent hardware signals.
+* **Boundary Assertions:** Validates extreme occupant density scenarios, ranging from zero-occupancy edge cases to maximum building capacity limits.
 
----
-
-## Project Structure
-```text
-smart_hvac_simulator/
-├── CMakeLists.txt         # CMake build configuration
-├── docs/
-│   └── PRD.md             # Project Requirements Document
-├── include/
-│   ├── HVACState.hpp      # HVAC states and transition logic
-│   └── SensorReader.hpp   # Sensor interface and data structs
-└── src/
-    ├── main.cpp           # Main application daemon loop
-    └── SensorReader.cpp   # Linux file node / simulation mock handler
+### Stage 6: Native C++ Build Integration
+* **Build Automation:** Completely eliminated external build systems in favor of a native C++ build program (`build.cpp`) compiled directly via `g++`.
+* **Clean Repository:** Maintained a sanitized, professional Git history and lightweight directory tree containing only source code, headers, and the custom builder.
+* **Compiler Optimization:** Injects production optimization flags (`-O3 -flto`) directly via the builder script for maximum runtime performance.
+* **Pre-Flight Validation:** Implements automated header inclusion and dependency checks within the C++ builder before triggering compilation.
