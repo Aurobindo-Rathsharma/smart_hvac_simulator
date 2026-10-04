@@ -102,7 +102,9 @@ Execute the standalone testing harness to verify sensor parsing, edge cases, an>
 
 ```bash
 ./hvac_tests
-## Project Directory Structure
+
+
+# Project Directory Structure
 
 ```text
 smart_hvac_simulator/
