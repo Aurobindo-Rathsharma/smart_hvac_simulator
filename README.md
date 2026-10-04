@@ -94,3 +94,15 @@ smart_hvac_simulator/
     └── test_main.cpp
 
 
+
+---
+
+## Getting Started: Compilation & Execution Guide
+
+>  This project bypasses traditional heavy build systems (like CMake or Make) in favor of a native C++ build automation script (`build.cpp`) to highlight low-level control over compilation pipelines, dependency checking, and compiler flag injection.
+
+### Step 1: Verify Compiler Prerequisites
+Ensure your Linux environment has a modern compiler supporting Modern C++20 standards:
+```bash
+g++ --version
+
