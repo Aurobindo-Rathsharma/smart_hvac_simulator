@@ -103,6 +103,10 @@ The Smart Home Occupancy & HVAC Control Simulator successfully showcases an ente
 *Below is a capture of the daemon running successfully in simulation mode, demonstrating real-time telemetry logging, FSM state transitions (`AWAY_MODE`, `ECO_COOLING`, `ACTIVE_COMFORT`), and test harness execution:*
 
 
+(<img width="986" height="580" alt="Screenshot 2026-10-04 214002" src="https://github.com/user-attachments/assets/4f215e59-d4ef-4972-a8f6-c15994d02939" />
+)
+
+
 
 
 # Project Directory Structure
