@@ -77,31 +77,6 @@ The repository has been systematically developed across six distinct engineering
       A[Builder Execution] --> B[Dependency Check]
       B --> C[g++ Direct Compilation]
       C --> D[Binary Output]
-## Compilation & Execution
-
-Follow these steps to compile and run the project:
-
-### 1. **Compile the build script:**
-```bash
-   g++ -std=c++20 build.cpp -o builder
-### 2. Run the Native Builder
-
-Execute the compiled custom build program to trigger the zero-dependency C++ co>
-
-```bash
-./builder
-### 3. Execute the HVAC Simulator Daemon
-
-Run the generated production binary to start the environmental monitoring and H>
-
-```bash
-./hvac_sim
-### 4. Run the Unit Testing Suite
-
-Execute the standalone testing harness to verify sensor parsing, edge cases, an>
-
-```bash
-./hvac_tests
 
 
 # Project Directory Structure
