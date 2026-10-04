@@ -74,3 +74,22 @@ smart_hvac_simulator/
     ├── main.cpp           # Main application daemon execution loop
     ├── SensorReader.cpp   # Linux file node / simulation mock handler
     └── test_main.cpp      # Standalone unit testing verification suite
+
+## Getting Started & Compilation
+
+* Prerequisites:
+  - C++20 compliant compiler (g++ version 10 or higher)
+  - Linux environment for daemon execution
+
+* Step 1: Compile the Project
+  - Run the following commands to build via the native C++ builder script:
+    g++ -std=c++20 build.cpp -o builder
+    ./builder
+
+* Step 2: Run the HVAC Daemon
+  - Launch the simulation loop (automatically falls back to simulation mode if /dev/smart_hvac_sensors is absent):
+    ./hvac_sim
+
+* Step 3: Run the Unit Tests
+  - Execute the verification suite to validate state machine transitions and threshold logic:
+    ./hvac_tests
