@@ -77,7 +77,26 @@ The repository has been systematically developed across six distinct engineering
       A[Builder Execution] --> B[Dependency Check]
       B --> C[g++ Direct Compilation]
       C --> D[Binary Output]
+## Compilation And Execution
+* ** Compile the Custom Build Automation Script
+Compile the meta-builder program directly using g++:
 
+
+  g++ -std=c++20 build.cpp -o builder
+* ** Run the Native Builder (Zero-Dependency Compilation)
+Execute the builder script to trigger automated source scanning and compiler optimizations:
+
+
+./builder
+* **Execute the HVAC Simulator Daemon
+Launch the headless background daemon to monitor telemetry and evaluate state transitions:
+
+
+./hvac_sim 
+* **then next
+./hvac_tests
+##CONCLUSION 
+The Smart Home Occupancy & HVAC Control Simulator successfully showcases an enterprise-grade intersection of embedded Linux systems engineering and modern C++20 software design. By employing a deterministic Finite State Machine with advanced hysteresis buffering, robust RAII resource management, and a zero-dependency native compilation pipeline, this project delivers high reliability, sub-millisecond evaluation latency, and seamless hardware-to-simulation fallback capabilities. It serves as a comprehensive, production-ready blueprint for resource-constrained edge automation environments.
 
 # Project Directory Structure
 
@@ -96,13 +115,4 @@ smart_hvac_simulator/
 
 
 ---
-
-## Getting Started: Compilation & Execution Guide
-
->  This project bypasses traditional heavy build systems (like CMake or Make) in favor of a native C++ build automation script (`build.cpp`) to highlight low-level control over compilation pipelines, dependency checking, and compiler flag injection.
-
-### Step 1: Verify Compiler Prerequisites
-Ensure your Linux environment has a modern compiler supporting Modern C++20 standards:
-```bash
-g++ --version
 
