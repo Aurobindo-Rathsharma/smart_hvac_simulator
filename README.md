@@ -99,6 +99,10 @@ Launch the headless background daemon to monitor telemetry and evaluate state tr
 # Conclusion
 
 The Smart Home Occupancy & HVAC Control Simulator successfully showcases an enterprise-grade intersection of embedded Linux systems engineering and modern C++20 software design. By employing a deterministic Finite State Machine with advanced hysteresis buffering, robust RAII resource management, and a zero-dependency native compilation pipeline, this project delivers high reliability, sub-millisecond evaluation latency, and seamless hardware-to-simulation fallback capabilities. It serves as a comprehensive, production-ready blueprint for resource-constrained edge automation environments.
+### Live Execution Preview
+*Below is a capture of the daemon running successfully in simulation mode, demonstrating real-time telemetry logging, FSM state transitions (`AWAY_MODE`, `ECO_COOLING`, `ACTIVE_COMFORT`), and test harness execution:*
+
+![HVAC Simulator Execution Output]()
 
 
 # Project Directory Structure
